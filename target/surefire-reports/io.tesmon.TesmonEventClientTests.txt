@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: io.tesmon.TesmonEventClientTests
--------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.105 s - in io.tesmon.TesmonEventClientTests
