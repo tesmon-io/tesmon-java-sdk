@@ -54,7 +54,10 @@
         <repository>
             <id>github</id>
             <name>Tesmon Java SDK</name>
-            <url>https://maven.pkg.github.com/tesmon-io</url>
+            <url>https://maven.pkg.github.com/tesmon-io/tesmon-java-sdk</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </distributionManagement>
 
