@@ -39,10 +39,3 @@ jobs:
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
       env:
         GITHUB_TOKEN: ${{ github.token }}
-
-    - name: Create a GitHub release
-      uses: ncipollo/release-action@v1
-      with:
-        tag: ${{ steps.tag_version.outputs.new_version }}
-        name: Release ${{ steps.tag_version.outputs.new_version }}
-        body: ${{ steps.tag_version.outputs.changelog }}
