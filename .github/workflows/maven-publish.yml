@@ -33,7 +33,7 @@ jobs:
         release_branches: release
 
     - name: Build with Maven
-      run: mvn -B package -Dapp.version=${{ steps.tag_version.outputs.new_version }} --file pom.xml
+      run: mvn -B package versions:set -DnewVersion=${{ steps.tag_version.outputs.new_version }}
 
     - name: Publish to GitHub Packages Apache Maven
       run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
