@@ -10,20 +10,20 @@ To use the Tesmon Java SDK in your project, add the following dependency to your
 <dependency>
   <groupId>com.tesmon</groupId>
   <artifactId>tesmon-java-sdk</artifactId>
-  <version>1.0.0</version>
+  <version>X.X.X</version>
 </dependency>
 ```
 
 ## Usage
-To use the Tesmon Java SDK in your project, first create a TesmonEventClient object using one of the available constructors:
+To use the Tesmon Java SDK in your project, first create a TesmonEventClient object using constructor:
 ```java
-TesmonEventClient tesmonEventClient = new DefaultTesmonEventClient("http://localhost:8080");
+TesmonEventClient tesmonEventClient = new DefaultTesmonEventClient("<environment_id>", "<api_token>");
 ```
 
 Then, use the ```sendEvent``` method to send an event to Tesmon:
 ```java
 JSONObject eventBody = new JSONObject().put("key", "value");
-String eventId = tesmonEventClient.sendEvent("eventKey", eventBody);
+String eventId = tesmonEventClient.sendEvent("<event_key>", eventBody);
 ```
 
 ## License
