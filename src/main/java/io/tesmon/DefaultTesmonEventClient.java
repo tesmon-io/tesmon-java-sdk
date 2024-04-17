@@ -18,22 +18,33 @@ import java.util.concurrent.CompletableFuture;
 
 public class DefaultTesmonEventClient implements TesmonEventClient {
   private final static int DEFAULT_TIMEOUT = 5000;
-  private String tesmonTreBaseUrl;
+  private final static String TESMON_BASE_URL = "https://api.tesmon.io";
 
-  public DefaultTesmonEventClient(String tesmonTreBaseUrl) {
-    this.tesmonTreBaseUrl = tesmonTreBaseUrl;
+  private String baseUrl = null;
+  private String environmentId = null;
+  private String apiToken = null;
+
+  public DefaultTesmonEventClient(String environmentId, String apiToken) {
+    this.environmentId = environmentId;
+    this.apiToken = apiToken;
+    this.baseUrl = TESMON_BASE_URL;
   }
 
-  public DefaultTesmonEventClient() {
-    this.tesmonTreBaseUrl = System.getenv("TESMON_TRE_BASE_URL");
+  public DefaultTesmonEventClient(String environmentId, String apiToken, String baseUrl) {
+    this.environmentId = environmentId;
+    this.apiToken = apiToken;
+    this.baseUrl = baseUrl;
   }
 
   @Override
   public CompletableFuture<String> sendEvent(String eventKey, JSONObject eventBody) {
-    if (tesmonTreBaseUrl == null || tesmonTreBaseUrl.isEmpty()) {
-      throw new IllegalArgumentException("Tesmon Test Run Engine base URL is null or empty");
+    if (environmentId == null || environmentId.isEmpty()) {
+      throw new IllegalArgumentException("environmentId is null or empty");
     }
-    String url = tesmonTreBaseUrl + "/v1/events";
+    if (apiToken == null || apiToken.isEmpty()) {
+      throw new IllegalArgumentException("apiToken is null or empty");
+    }
+    String url = this.baseUrl + "/v1/environments/" + this.environmentId + "/events";
 
     CloseableHttpAsyncClient httpClient = HttpAsyncClients.custom()
         .setDefaultRequestConfig(RequestConfig.custom()
@@ -51,9 +62,8 @@ public class DefaultTesmonEventClient implements TesmonEventClient {
       HttpPost httpPost = new HttpPost(url);
 
       JSONObject event = new JSONObject();
-      event.append("eventKey", eventKey);
-      event.append("eventBody", eventBody);
-      event.append("createdAt", System.currentTimeMillis());
+      event.append("key", eventKey);
+      event.append("value", eventBody);
 
       StringEntity payloadEntity = new StringEntity(event.toString(), ContentType.APPLICATION_JSON.withCharset(Charset.forName("UTF-8")));
       httpPost.setEntity(payloadEntity);
